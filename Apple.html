@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophisticated Apple Catching Game</title>
+    <link rel="stylesheet" href="Apple.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="score">Score: 0</div>
+        <div id="timer">Time: 45</div>
+        <div id="bucket"></div>
+        <div id="powerUpIndicator" class="hidden">Power-Up Active!</div>
+    </div>
+    <div id="welcomePopup" class="popup">
+        <h1>Welcome to the Sophisticated Apple Catching Game!</h1>
+        <p>Instructions:</p>
+        <ul>
+            <li>Move the bucket to catch apples for points.</li>
+            <li>Avoid the bananas; touching them ends the game!</li>
+            <li>Catch golden apples for power-ups!</li>
+            <li>Enjoy the beautiful animations of flowers, birds, cats, and butterflies!</li>
+            <li>You have 45 seconds to score as much as possible. Good luck!</li>
+        </ul>
+        <button id="startButton">Start Game</button>
+    </div>
+    <div id="gameOverPopup" class="popup">
+        <h1>Game Over</h1>
+        <p>Your score: <span id="finalScore">0</span></p>
+        <p>High score: <span id="highScore">0</span></p>
+        <button id="restartButton">Restart Game</button>
+    </div>
+    <script src="Apple.js"></script>
+</body>
+</html>

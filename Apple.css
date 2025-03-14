@@ -1,0 +1,454 @@
+:root {
+  --primary-color: #4a4e69;
+  --secondary-color: #9a8c98;
+  --accent-color: #c9ada7;
+  --background-color: #5f5f5f;
+  --text-color: #22223b;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--background-color);
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+}
+
+#gameContainer {
+  position: relative;
+  height: 670px;
+  width: 1352px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  touch-action: none;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+#gameContainer:hover {
+  transform: scale(1.01);
+}
+
+#gameContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://png.pngtree.com/thumb_back/fw800/background/20240322/pngtree-beautiful-magical-forest-background-image_15642237.jpg")
+    no-repeat center center;
+  background-size: cover;
+  /* opacity: 0.6; */
+  filter: brightness(0.9) contrast(1.1);
+  z-index: -1;
+}
+
+.apple,
+.golden-apple,
+.banana,
+.flower,
+.bird,
+.cat,
+.butterfly {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s ease;
+}
+
+.apple,
+.golden-apple {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.apple {
+  background-image: url("https://jerinrubaiya33.github.io/Pics/apple.png");
+}
+
+.golden-apple {
+  background-image: url("https://jerinrubaiya33.github.io/Pics/Golden%20apple.png");
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 5px gold);
+  }
+  to {
+    filter: drop-shadow(0 0 20px gold);
+  }
+}
+
+.banana {
+  width: 70px;
+  height: 50px;
+  background-image: url("https://jerinrubaiya33.github.io/Pics/banana.png");
+}
+
+.flower {
+  width: 30px;
+  height: 30px;
+  background-image: url("https://jerinrubaiya33.github.io/Pics/flower.png");
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+.bird {
+  width: 80px;
+  height: 60px;
+  background-image: url("https://jerinrubaiya33.github.io/Pics/bird-cartoon-colored-clipart-illustration.png");
+}
+
+.cat {
+  width: 60px;
+  height: 40px;
+  background-image: url("https://jerinrubaiya33.github.io/Pics/bird-cartoon-colored-clipart-illustration.png");
+}
+.butterfly {
+  width: 40px;
+  height: 30px;
+  background-image: url("https://jerinrubaiya33.github.io/Pics/butterfly.png");
+  animation: flyAcross 8s linear infinite;
+}
+
+@keyframes flyAcross {
+  0% {
+    left: -40px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+#bucket {
+  position: absolute;
+  bottom: 10px;
+  width: 150px;
+  height: 120px;
+  background: url("https://jerinrubaiya33.github.io/Pics/Busket.png") no-repeat center / contain;
+  cursor: move;
+  user-select: none;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease;
+}
+
+#bucket:active {
+  transform: scale(1.05);
+}
+
+#score,
+#timer,
+#powerUpIndicator {
+  position: absolute;
+  top: 20px;
+  font-size: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: rgba(74, 78, 105, 0.7);
+  padding: 10px 15px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+#score:hover,
+#timer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#score {
+  right: 20px;
+}
+
+#timer {
+  left: 20px;
+}
+
+#powerUpIndicator {
+  position: fixed;
+  top: 10%; /* Keep it within visible bounds on smaller screens */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 215, 0, 0.7);
+  color: var(--text-color);
+  padding: 10px 20px; /* Add padding for better tap areas */
+  font-size: 16px; /* Base font size */
+  border-radius: 12px; /* Rounded corners for a polished look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+#powerUpIndicator.hidden {
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.144);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  width: 90%;
+  max-width: 400px;
+  margin: 0; /* Remove any margin that might affect centering */
+}
+
+.popup.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.popup h1 {
+  font-size: 20px; /* Reduced font size for smaller screens */
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.popup button {
+  --color: #a6ff00;
+  font-family: inherit;
+  display: inline-block;
+  width: 6em;
+  height: 2.6em;
+  line-height: 2.5em;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 17px;
+  z-index: 1;
+  color: var(--color);
+  border: 2px solid var(--color);
+  border-radius: 6px;
+  position: relative;
+}
+
+.popup button::before {
+  position: absolute;
+  content: "";
+  background: var(--color);
+  width: 150px;
+  height: 200px;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+.popup button:hover {
+  color: white;
+}
+
+.popup button:before {
+  top: 100%;
+  left: 100%;
+  transition: 0.3s all;
+}
+
+.popup button:hover::before {
+  top: -30px;
+  left: -30px;
+}
+
+/* Improved Media queries for mobile screens */
+@media (max-width: 768px) {
+  #powerUpIndicator {
+    top: 10%;
+    padding: 6px 12px;
+    font-size: 14px;
+    width: auto;
+    max-width: 80%;
+  }
+
+  .popup {
+    padding: 15px;
+    width: 85%;
+    max-width: 300px;
+    max-height: 80vh;
+  }
+
+  .popup h1 {
+    font-size: 18px;
+  }
+
+  .popup button {
+    margin: 10px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #gameContainer {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: unset;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #gameContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://png.pngtree.com/thumb_back/fw800/background/20240322/pngtree-beautiful-magical-forest-background-image_15642237.jpg")
+      no-repeat center center;
+    background-size: 100% 100%; /* Changed from 'cover' to '100% 100%' */
+    background-position: center; /* Ensures the image is centered */
+    filter: brightness(0.9) contrast(1.1);
+    z-index: -1;
+  }
+
+  #bucket {
+    width: 80px;
+    height: 100px;
+    bottom: 5px;
+  }
+
+  #score,
+  #timer {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  #score {
+    right: 10px;
+  }
+
+  #timer {
+    left: 10px;
+  }
+
+  .banana,
+  .cat {
+    width: 60px;
+    height: 55px;
+  }
+
+  .bird {
+    width: 50px;
+    height: 40px;
+  }
+
+  .flower,
+  .butterfly {
+    width: 30px;
+    height: 25px;
+  }
+
+  .apple,
+  .golden-apple {
+    width: 30px;
+    height: 30px;
+  }
+
+  .popup {
+    padding: 12px;
+    width: 90%;
+    max-width: 250px;
+  }
+
+  .popup h1 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .popup button {
+    width: 5em;
+    height: 2.4em;
+    line-height: 2.3em;
+    margin: 8px;
+    font-size: 14px;
+  }
+}
+
+/* Additional media query for very small screens */
+@media (max-width: 375px) {
+  #gameContainer {
+    height: 70vh;
+  }
+
+  #bucket {
+    width: 70px;
+    height: 90px;
+  }
+
+  #score,
+  #timer {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .apple,
+  .golden-apple {
+    width: 25px;
+    height: 25px;
+  }
+
+  .banana,
+  .cat {
+    width: 50px;
+    height: 45px;
+  }
+
+  .bird {
+    width: 45px;
+    height: 35px;
+  }
+
+  .flower,
+  .butterfly {
+    width: 25px;
+    height: 20px;
+  }
+}
+
+/* Additional fix for Surface Pad and similar tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .popup {
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  .popup.active {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
